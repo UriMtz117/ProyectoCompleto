@@ -1,0 +1,1 @@
+{"version":3,"sources":["variables2.js"],"names":["b","c","module","exports"],"mappings":";;AAAA,IAAIA,CAAC,GAAC,GAAN;AACA,IAAIC,CAAC,GAAC,GAAN;AAEAC,MAAM,CAACC,OAAP,GAAe;AACXH,EAAAA,CAAC,EAADA,CADW;AAEXC,EAAAA,CAAC,EAADA;AAFW,CAAf","sourcesContent":["var b=200;\r\nvar c=300;\r\n\r\nmodule.exports={\r\n    b,\r\n    c\r\n}"],"file":"variables2.dev.js"}

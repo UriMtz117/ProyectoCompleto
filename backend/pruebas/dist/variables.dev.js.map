@@ -1,0 +1,1 @@
+{"version":3,"sources":["variables.js"],"names":["a","module","exports"],"mappings":";;AAAA,IAAIA,CAAC,GAAG,GAAR;AAEAC,MAAM,CAACC,OAAP,GAAeF,CAAf","sourcesContent":["var a = 100;\r\n\r\nmodule.exports=a;"],"file":"variables.dev.js"}

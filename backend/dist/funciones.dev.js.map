@@ -1,0 +1,1 @@
+{"version":3,"sources":["funciones.js"],"names":["saludar","nombre","console","log"],"mappings":";;AAAA,SAASA,OAAT,CAAiBC,MAAjB,EAAyB;AACzBC,EAAAA,OAAO,CAACC,GAAR,CAAY,UAAQF,MAApB;AACC;;AAEDD,OAAO,CAAE,MAAF,CAAP","sourcesContent":["function saludar(nombre) {\r\nconsole.log(\"Hola \"+nombre);\r\n}\r\n\r\nsaludar (\"Paco\");"],"file":"funciones.dev.js"}
