@@ -10,6 +10,13 @@ async function mostrarUsuarios() {
     return usuariosList;
 }
 
+async function login(usuario, password) {
+    const usuarios = await usuariosBD.where ("usuario","==",usuario).get();
+    Array.forEach(usu => {
+        console.log(usu.data());
+    });
+}
+
 // Buscar un usuario por ID
 async function buscarUsuarioPorId(id) {
     const usuarioDoc = await usuarios.doc(id).get();
@@ -36,4 +43,4 @@ async function borrarUsuario(id) {
     return { mensaje: 'Usuario borrado correctamente' };
 }
 
-module.exports = { mostrarUsuarios, buscarUsuarioPorId, nuevoUsuario, borrarUsuario };
+module.exports = { mostrarUsuarios, buscarUsuarioPorId, nuevoUsuario, borrarUsuario, login };
