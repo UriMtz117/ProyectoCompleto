@@ -6,7 +6,8 @@ admin.initializeApp({
 });
 
 const bd = admin.firestore();
-const usuarios = bd.collection("Ventas");  // Asegúrate de que la colección sea la correcta
+const usuarios = bd.collection("miejemploBD");  // Asegúrate de que la colección sea la correcta
+const productos = bd.collection("productos");  // la bd de Productos
 
 module.exports = {
     usuarios  // Exportamos la colección que usaremos tanto para usuarios como productos
