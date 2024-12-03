@@ -1,42 +1,74 @@
-const { usuarios } = require('./conexion');  // La colección "productos" también se usa para productos
+const productosBD = require("./conexion").productos;
+const Producto = require("../clases/ProductoClase");
 
-// Usamos la colección principal "productos"
-const db = usuarios;
+function validarDatosProducto(producto) {
+    var datosCorrectos = false;
+    
+    if (producto.producto != undefined && producto.cantidad != undefined && producto.precio != undefined) {
+        datosCorrectos = true;
+    }
+    
+    return datosCorrectos;
+}
 
-// Mostrar todos los productos
 async function mostrarProductos() {
-    const productosSnapshot = await db.where('tipo', '==', 'producto').get();  // Filtramos por productos
-    const productosList = [];
-    productosSnapshot.forEach(doc => {
-        productosList.push({ id: doc.id, ...doc.data() });
+    const productos = await productosBD.get();
+    var productosValidos = [];
+    
+    productos.forEach(producto => {
+        const productoData = new Producto({id: producto.id, ...producto.data()});
+        const productoValido = productoData.getproducto;
+        if (validarDatosProducto(productoValido)) {
+            productosValidos.push(productoValido);
+        }
     });
-    return productosList;
+    
+    return productosValidos;
 }
 
-// Buscar producto por ID
 async function buscarProductoPorId(id) {
-    const productoDoc = await db.doc(id).get();
-    if (!productoDoc.exists || productoDoc.data().tipo !== 'producto') {
-        return null;
+    const producto = await productosBD.doc(id).get();
+    const productoData = new Producto({id: producto.id, ...producto.data()});
+    var productoValido = { error: true };
+    
+    if (validarDatosProducto(productoData.getproducto)) {
+        productoValido = productoData.getproducto;
     }
-    return { id: productoDoc.id, ...productoDoc.data() };
+    
+    return productoValido;
 }
 
-// Agregar un nuevo producto con nombre, precio y cantidad
-async function nuevoProducto(producto) {
-    producto.tipo = 'producto';  // Definimos que este documento es un producto
-    const nuevoDoc = await db.add(producto);
-    return { id: nuevoDoc.id, ...producto };
+async function nuevoProducto(data) {
+    if (!data.producto || !data.cantidad || !data.precio) {
+        return { error: "Faltan datos para crear el producto" };
+    }
+    
+    const productoData = new Producto(data);
+    var productoValido = false;
+
+    if (validarDatosProducto(productoData.getproducto)) {
+        await productosBD.doc().set(productoData.getproducto);
+        productoValido = true;
+    }
+
+    return productoValido;
 }
 
-// Borrar un producto por ID
 async function borrarProducto(id) {
-    const productoDoc = await db.doc(id).get();
-    if (!productoDoc.exists || productoDoc.data().tipo !== 'producto') {
-        return { mensaje: 'Producto no encontrado' };
+    const producto = await buscarProductoPorId(id);
+    var borrado = false;
+    
+    if (producto.error != true) {
+        await productosBD.doc(id).delete();
+        borrado = true;
     }
-    await db.doc(id).delete();
-    return { mensaje: 'Producto borrado correctamente' };
+    
+    return borrado;
 }
 
-module.exports = { mostrarProductos, buscarProductoPorId, nuevoProducto, borrarProducto };
+module.exports = {
+    mostrarProductos,
+    nuevoProducto,
+    borrarProducto,
+    buscarProductoPorId
+};
